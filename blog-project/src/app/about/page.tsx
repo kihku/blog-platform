@@ -1,6 +1,12 @@
+import Header from "@/components/header"
+
 export default function About() {
     return (
-      <h1>About us</h1>
+      <>
+        <Header/>
+        <h1>About us</h1>
+      </>
+      
     );
   }
   
