@@ -1,8 +1,12 @@
+"use client";
+
 import Link from "next/link";
-import Button from '@mui/material/Button';
-import "./index.scss";
-import Icon from "./icon";
 import { IconButton } from "@mui/material";
+import SettingsIcon from "@mui/icons-material/Settings";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+
+import "./index.scss";
+import { openLink } from "@/utils";
 export default function Header() {
   return (
     <>
@@ -13,9 +17,12 @@ export default function Header() {
         <Link href="#contact">Contact</Link>
         <Link href="/about">About</Link>
         <div className="header-right">
-            <IconButton>
-                <Icon iconName="AccessAlarm"></Icon>
-            </IconButton>
+          <Link href="setting">
+            <SettingsIcon />
+          </Link>
+          <Link href="/profile">
+            <AccountCircleIcon />
+          </Link>
         </div>
       </div>
     </>
