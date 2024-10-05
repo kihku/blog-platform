@@ -49,6 +49,7 @@ export default function ProfileAvatar() {
               color="blue-gray"
               className="mb-1 font-bold"
             >
+                
               Achievements
             </Typography>
             <Typography
@@ -64,7 +65,7 @@ export default function ProfileAvatar() {
               color="blue-gray"
               className="mb-1 font-bold"
             >
-              Logout
+              Log out
             </Typography>
             <hr className="my-3" />
             <Typography
