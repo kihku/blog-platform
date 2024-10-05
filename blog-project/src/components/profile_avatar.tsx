@@ -6,11 +6,10 @@ import {
   PopoverHandler,
   Typography,
 } from "@material-tailwind/react";
-import { cloneElement, useEffect, useState } from "react";
+import { cloneElement, useState } from "react";
 
 export default function ProfileAvatar() {
   const [openMenu, setOpenMenu] = useState(false);
-  const [isSmallScreen, setSmallScreen] = useState(true);
   const renderAvatar = () => {
     return (
       <Avatar
