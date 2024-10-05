@@ -1,15 +1,59 @@
 "use client";
 
+import { useState } from "react";
 import "./index.scss";
 import {
   Button,
+  Card,
+  CardBody,
+  CardFooter,
   Carousel,
+  Drawer,
   IconButton,
+  Progress,
   Typography,
 } from "@material-tailwind/react";
 export default function JourneyCarousel() {
+  const [openDescription, setOpenDescription] = useState(false);
+  const closeDescription = () => setOpenDescription(false);
+
   return (
     <>
+      <Drawer
+        placement="bottom"
+        open={openDescription}
+        onClose={closeDescription}
+        size={500}
+        className="overflow-y-auto"
+      >
+        <div className="py-5 px-5 lg:py-10 lg:px-32">
+          <div className="mb-6 flex items-center justify-between">
+            <Typography variant="h5" color="blue-gray">
+              Unit 1
+            </Typography>
+          </div>
+          <Progress value={75} size="lg" />
+          <div className="grid grid-cols-1 gap-4 lg:grid-cols-3 md:grid-cols-2">
+            {["a", "b", "c"].map((name) => (
+              <Card className="mt-6 w-full" key={name}>
+                <CardBody>
+                  <Typography variant="h5" color="blue-gray" className="mb-2">
+                    Lesson 1
+                  </Typography>
+                  <Typography>
+                    The place is close to Barceloneta Beach and bus stop just 2
+                    min by walk and near to &quot;Naviglio&quot; where you can
+                    enjoy the main night life in Barcelona.
+                  </Typography>
+                </CardBody>
+                <CardFooter className="pt-0">
+                  <Button>Read More</Button>
+                </CardFooter>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </Drawer>
       <Carousel
         navigation={({ setActiveIndex, activeIndex, length }) => (
           <div className="absolute bottom-4 left-2/4 z-50 flex -translate-x-2/4 gap-2">
@@ -73,7 +117,11 @@ export default function JourneyCarousel() {
                 wonderfully changes and renews a weary spirit.
               </Typography>
               <div className="flex justify-center gap-2">
-                <Button size="lg" color="white">
+                <Button
+                  size="lg"
+                  color="white"
+                  onClick={() => setOpenDescription(true)}
+                >
                   Explore
                 </Button>
               </div>
