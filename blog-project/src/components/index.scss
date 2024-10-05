@@ -1,10 +1,31 @@
 @import "../app/globals.css";
+.flip-card {
+  animation-name: flip-back;
+  animation-duration: 0.5s;
+  animation-iteration-count: 1;
+  transform-style: preserve-3d;
+}
+@keyframes flip-back {
+  from {
+    -webkit-transform: rotateY(0deg);
+  }
+  to {
+    -webkit-transform: rotateY(180deg);
+  }
+}
 
+@keyframes flip-front {
+  from {
+    -webkit-transform: rotateY(180deg);
+  }
+  to {
+    -webkit-transform: rotateY(0deg);
+  }
+}
 .header {
   overflow: hidden;
   background-color: var(--secondary-color);
   color: var(--primary);
-  padding: 20px 200px;
 }
 
 a {
@@ -13,7 +34,7 @@ a {
   text-align: center;
   padding: 12px;
   text-decoration: none;
-  font-size: 18px;
+  font-size: 14px;
   line-height: 25px;
   border-radius: 4px;
 }
@@ -21,7 +42,7 @@ a {
 a.logo {
   font-size: 25px;
   font-weight: bold;
-  color: var(--primary)
+  color: var(--primary);
 }
 
 a:hover {
