@@ -58,17 +58,3 @@ a:hover {
 .header-right {
   float: right;
 }
-
-@media screen and (max-width: 500px) {
-  .header {
-    padding: 20px 10px;
-    a {
-      float: none;
-      display: block;
-      text-align: left;
-    }
-    .header-right {
-      float: none;
-    }
-  }
-}

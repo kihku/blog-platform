@@ -33,11 +33,11 @@ export default function Header() {
         </div>
       </div>
       <Drawer
-        placement="bottom"
+        placement="left"
         open={openMenu}
         onClose={() => setOpenMenu(false)}
-        size={400}
-        className="overflow-y-auto rounded-t-3xl"
+        className="overflow-y-auto"
+        size={250}
       >
         <div className="py-5 px-5 lg:py-10 lg:px-32">
           <div className="mb-6 flex items-center justify-between">
