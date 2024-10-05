@@ -1,10 +1,8 @@
-import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import Header from "@/components/header";
 
 import "./globals.css";
-import { StyledRoot } from "@/styles/styled_root";
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -17,8 +15,8 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Blog",
-  description: "Create blogs and stories",
+  title: "Language Buddy",
+  description: "Language learning platform for everyone",
 };
 
 export default function RootLayout({
@@ -28,15 +26,21 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+          integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+          crossOrigin="anonymous"
+          referrerPolicy="no-referrer"
+        />
+      </head>
+
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <AppRouterCacheProvider>
-          <StyledRoot>
-            <Header />
-            {children}
-          </StyledRoot>
-        </AppRouterCacheProvider>
+        <Header />
+        {children}
       </body>
     </html>
   );
