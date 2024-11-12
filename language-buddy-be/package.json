@@ -1,0 +1,22 @@
+{
+  "name": "language-buddy-be",
+  "version": "1.0.0",
+  "description": "backend project for language buddy",
+  "main": "index.js",
+  "scripts": {
+    "start": "npx nodemon server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "kihku",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.1",
+    "morgan": "^1.10.0",
+    "nodemon": "^3.1.7"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.14.0",
+    "eslint": "^9.14.0",
+    "globals": "^15.12.0"
+  }
+}
