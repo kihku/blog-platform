@@ -12,10 +12,8 @@ exports.checkId = (req, res, next, val) => {
 
 exports.createUser = async (req, res) => {
   try {
-    var now = new Date();
-    var isoString = now.toISOString();
-    const newUser = await User.create({ ...req.body, createdAt: isoString });
-    res.status(201).json({ status: 'success', id: newUser._id });
+    const newUser = await User.create(req.body);
+    res.status(201).json({ status: 'success', data: { id: newUser._id } });
   } catch (err) {
     res.status(400).json({
       status: 'fail',
@@ -27,7 +25,7 @@ exports.createUser = async (req, res) => {
 exports.getUser = async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
-    res.status(201).json({ status: 'success', id: user });
+    res.status(201).json({ status: 'success', data: { id: user } });
   } catch (err) {
     res.status(400).json({
       status: 'fail',
@@ -42,7 +40,7 @@ exports.updateUser = async (req, res) => {
       new: true,
       runValidators: true,
     });
-    res.status(201).json(user);
+    res.status(201).json({ status: 'success', data: user });
   } catch (err) {
     res.status(400).json({
       status: 'fail',

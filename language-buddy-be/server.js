@@ -3,9 +3,10 @@ const mongoose = require('mongoose');
 const express = require('express');
 const morgan = require('morgan');
 const dotenv = require('dotenv');
+dotenv.config({ path: './config.env' });
 
 const app = express();
-dotenv.config({ path: './config.env' });
+
 
 const DB = process.env.DATABASE.replace(
   '<PASSWORD>',
@@ -21,8 +22,10 @@ if (process.env.NODE_ENV === 'development') {
 
 app.use(express.json());
 const userRoute = require('./routes/userRoutes');
+const journeyUnitRoute = require('./routes/journeyUnitRoutes');
 
 app.use('/user', userRoute);
+app.use('/journeyUnit', journeyUnitRoute);
 
 const port = process.env.PORT;
 
