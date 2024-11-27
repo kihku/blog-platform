@@ -28,33 +28,9 @@
   color: var(--primary);
 }
 
-a {
-  float: left;
-  color: var(--background);
-  text-align: center;
-  padding: 12px;
-  text-decoration: none;
-  font-size: 14px;
-  line-height: 25px;
-  border-radius: 4px;
-}
 
-a.logo {
-  font-size: 25px;
-  font-weight: bold;
-  color: var(--primary);
-}
-
-a:hover {
-  background-color: var(--highlight);
-  color: var(--secondary-color);
-}
-
-.header a.active {
-  background-color: dodgerblue;
-  color: white;
-}
-
-.header-right {
-  float: right;
+.menu-container {
+  .ant-btn {
+    justify-content: flex-start !important;
+  }
 }

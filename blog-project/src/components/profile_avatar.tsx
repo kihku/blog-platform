@@ -1,11 +1,11 @@
 import {
-  Avatar,
   Drawer,
   Popover,
   PopoverContent,
   PopoverHandler,
   Typography,
 } from "@material-tailwind/react";
+import { Avatar } from "antd";
 import { cloneElement, useState } from "react";
 
 export default function ProfileAvatar() {
@@ -13,7 +13,7 @@ export default function ProfileAvatar() {
   const renderAvatar = () => {
     return (
       <Avatar
-        size="sm"
+        size={64}
         src="https://docs.material-tailwind.com/img/face-2.jpg"
         alt="avatar"
         className="cursor-pointer"
@@ -22,23 +22,18 @@ export default function ProfileAvatar() {
   };
   return (
     <>
-      {cloneElement(renderAvatar(), {
-        size: "sm",
-        onClick: () => setOpenMenu(true),
-        className: "block lg:hidden"
-      })}
-      <div className="hidden lg:block z-50">
+      <div>
         <Popover placement="bottom-end">
           <PopoverHandler>
-            {cloneElement(renderAvatar(), { size: "sm" })}
+            {cloneElement(renderAvatar(), { size: "large" })}
           </PopoverHandler>
           <PopoverContent className="w-72 px-5">
             <div className="flex">
-              {cloneElement(renderAvatar(), { size: "lg", className: "mr-6" })}
+              {cloneElement(renderAvatar(), { className: "mr-6" })}
               <div>
-                <Typography color="black" type="h3">
+                <p className="font-semibold">
                   Kihku
-                </Typography>
+                </p>
                 <Typography type="h4">Kihku@gmail.com</Typography>
               </div>
             </div>
