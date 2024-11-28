@@ -11,12 +11,13 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  age: Number,
-  userName: {
+  email: {
     type: String,
     required: true,
     immutable: true,
+    unique: true,
   },
+  age: Number,
   role: String,
 });
 
