@@ -17,11 +17,11 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
     immutable: true,
-    unique: true,
   },
   age: Number,
   role: String,
 });
+userSchema.index({ env: 1, email: 1 }, { unique: true });
 userSchema.pre(
   /^find|findOne|update|delete|count|distinct|aggregate/,
   function () {
