@@ -52,7 +52,7 @@ app.get(
 );
 
 let corsOptions = {
-  origin: ['http://localhost:3000'],
+  origin: [process.env.CLIENT_DOMAIN],
 };
 app.use(cors(corsOptions));
 
