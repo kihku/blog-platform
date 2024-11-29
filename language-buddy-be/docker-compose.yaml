@@ -1,0 +1,9 @@
+version: "1.0"
+services:
+
+  node-application:
+    build: .
+    container_name: node-application
+    ports:
+      - "8080:2000"
+    restart: always
