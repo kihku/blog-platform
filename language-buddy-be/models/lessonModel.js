@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
+const { baseModel } = require('./baseModel');
 
 const lessonSchema = new mongoose.Schema({
+  ...baseModel,
   createdAt: {
     type: Date,
     default: Date.now(),
