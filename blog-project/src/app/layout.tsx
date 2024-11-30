@@ -3,6 +3,8 @@ import localFont from "next/font/local";
 import Header from "@/components/header";
 
 import "./globals.css";
+import { CookiesProvider } from "next-client-cookies/server";
+
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -39,8 +41,10 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Header />
-        {children}
+        <CookiesProvider>
+          <Header />
+          {children}
+        </CookiesProvider>
       </body>
     </html>
   );

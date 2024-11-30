@@ -5,7 +5,8 @@ import {
   PopoverHandler,
   Typography,
 } from "@material-tailwind/react";
-import { Avatar } from "antd";
+import { useSessionStorageState } from "ahooks";
+import { Avatar, Button } from "antd";
 import { cloneElement, useState } from "react";
 
 export default function ProfileAvatar() {
@@ -14,14 +15,15 @@ export default function ProfileAvatar() {
     return (
       <Avatar
         size={64}
-        src="https://docs.material-tailwind.com/img/face-2.jpg"
+        src="/img/profile/avatar.jpg"
         alt="avatar"
         className="cursor-pointer"
       />
     );
   };
+  const [userId] = useSessionStorageState<string | undefined>("userId");
   return (
-    <>
+    <div>
       <div>
         <Popover placement="bottom-end">
           <PopoverHandler>
@@ -31,57 +33,34 @@ export default function ProfileAvatar() {
             <div className="flex">
               {cloneElement(renderAvatar(), { className: "mr-6" })}
               <div>
-                <p className="font-semibold">
-                  Kihku
-                </p>
-                <Typography type="h4">Kihku@gmail.com</Typography>
+                <p className="text-black font-semibold text-xl">Kihku</p>
+                <p className="font-base">Kihku@gmail.com</p>
               </div>
             </div>
-            <hr className="my-3" />
-            <Typography
-              variant="small"
-              color="blue-gray"
-              className="mb-1 font-bold"
-            >
-              Achievements
-            </Typography>
-            <Typography
-              variant="small"
-              color="blue-gray"
-              className="mb-1 font-bold"
-            >
-              Settings
-            </Typography>
-            <hr className="my-3" />
-            <Typography
-              variant="small"
-              color="blue-gray"
-              className="mb-1 font-bold"
-            >
-              Logout
-            </Typography>
-            <hr className="my-3" />
-            <Typography
-              variant="small"
-              color="blue-gray"
-              className="mb-1 font-bold"
-            >
-              Privacy and policy
-            </Typography>
-            <Typography
-              variant="small"
-              color="blue-gray"
-              className="mb-1 font-bold"
-            >
-              Frequently asked questions
-            </Typography>
-            <Typography
-              variant="small"
-              color="blue-gray"
-              className="mb-1 font-bold"
-            >
-              Billing
-            </Typography>
+            <hr className="my-2" />
+            <div>
+              <Button
+                href={`/profile/${userId}`}
+                type="text"
+                className="mb-1 font-bold"
+              >
+                Your profile
+              </Button>
+              <hr className="my-2" />
+              <Button type="text" className="mb-1 font-bold">
+                Logout
+              </Button>
+              <hr className="my-2" />
+              <Button type="text" className="mb-1 font-bold">
+                Privacy and policy
+              </Button>
+              <Button type="text" className="mb-1 font-bold">
+                Frequently asked questions
+              </Button>
+              <Button type="text" className="mb-1 font-bold">
+                Billing
+              </Button>
+            </div>
           </PopoverContent>
         </Popover>
       </div>
@@ -100,6 +79,6 @@ export default function ProfileAvatar() {
           </div>
         </div>
       </Drawer>
-    </>
+    </div>
   );
 }

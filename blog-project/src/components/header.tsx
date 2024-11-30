@@ -1,9 +1,11 @@
 "use client";
 
 import "./index.scss";
-import ProfileAvatar from "./profile_avatar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Divider, Drawer } from "antd";
+import { useSessionStorageState } from "ahooks";
+import dynamic from "next/dynamic";
+const ProfileAvatar = dynamic(() => import("./profile_avatar"), { ssr: false });
 export default function Header() {
   const [openMenu, setOpenMenu] = useState(false);
   const menuItems = [
@@ -40,8 +42,16 @@ export default function Header() {
       </Button>
     );
   };
+
+  const [_authToken] = useSessionStorageState<string | undefined>("authToken");
+  const [authToken, setAuthToken] = useState<string>();
+  useEffect(() => {
+    if (_authToken) {
+      setAuthToken(_authToken);
+    }
+  }, [_authToken]);
   return (
-    <>
+    <div>
       <Drawer
         width={300}
         placement="left"
@@ -56,7 +66,7 @@ export default function Header() {
           {extraItems.map((item) => renderButton(item))}
         </div>
       </Drawer>
-      <div className="header h-16 py-2 px-12 lg:px-32 flex justify-between">
+      <div className="header py-3 px-12 lg:px-32 flex justify-between">
         <div className="flex items-center">
           <Button
             icon={<i className="fa-solid fa-bars fa-2xl text-white" />}
@@ -64,11 +74,14 @@ export default function Header() {
             onClick={() => setOpenMenu(true)}
           />
         </div>
-
-        <div>
+        {authToken ? (
           <ProfileAvatar />
-        </div>
+        ) : (
+          <Button href="/login" size="large" type="primary">
+            Log in
+          </Button>
+        )}
       </div>
-    </>
+    </div>
   );
 }
