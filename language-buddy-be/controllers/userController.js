@@ -10,11 +10,10 @@ exports.checkId = (req, res, next, val) => {
   next();
 };
 
-
 exports.getUser = async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
-    res.status(201).json({ status: 'success', data: { id: user } });
+    res.status(201).json({ status: 'success', data: user });
   } catch (err) {
     res.status(400).json({
       status: 'fail',

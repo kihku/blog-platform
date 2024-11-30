@@ -3,9 +3,9 @@ const User = require('../models/userModel');
 async function userExist(email) {
   const user = await User.findOne({ email });
   if (user) {
-    return true;
+    return user;
   }
-  return false;
+  return null;
 }
 
 async function createUser(req) {
@@ -20,11 +20,11 @@ async function createUser(req) {
 
 async function createNewUser(req) {
   const email = req.emails[0].value;
-  const exist = await userExist(email);
-  if (!exist) {
-    createUser(req);
+  const user = await userExist(email);
+  if (user == null) {
+    user = createUser(req);
   }
-  return true;
+  return user._id.toString();
 }
 
 module.exports = {

@@ -16,6 +16,21 @@ const { generateAccessToken } = require('./utils/jwt');
 
 const app = express();
 
+let corsOptions = {
+  credentials: true,
+  origin: [process.env.CLIENT_DOMAIN],
+};
+
+app.use(cors(corsOptions));
+
+const DB = process.env.DATABASE.replace(
+  '<PASSWORD>',
+  process.env.DATABASE_PASSWORD,
+);
+mongoose.connect(DB, {}).then(() => {
+  console.log('DB connection successful!');
+});
+
 app.use(
   session({
     resave: false,
@@ -27,12 +42,8 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.get('/', (req, res) => {
-  res.send('<a href="auth/google">Authenticate with google</a>');
-});
-
 app.get(
-  '/auth/google',
+  `/auth/google`,
   passport.authenticate('google', {
     scope: ['profile', 'email'],
     prompt: 'select_account',
@@ -40,29 +51,21 @@ app.get(
 );
 
 app.get(
-  '/auth/google/redirect',
+  `/auth/google/redirect`,
   passport.authenticate('google', {
     failureRedirect: '/',
   }),
   function (req, res) {
-    createNewUser(req.user);
-    const token = generateAccessToken({ email: req.user.emails[0].value });
-    res.json(token);
+    createNewUser(req.user).then((value) => {
+      const id = value;
+      const token = generateAccessToken({ email: req.user.emails[0].value });
+      res.cookie('auth_token', token);
+      res.cookie('user_id', id);
+      res.redirect(`${process.env.CLIENT_DOMAIN}/`);
+    });
+
   },
 );
-
-let corsOptions = {
-  origin: [process.env.CLIENT_DOMAIN],
-};
-app.use(cors(corsOptions));
-
-const DB = process.env.DATABASE.replace(
-  '<PASSWORD>',
-  process.env.DATABASE_PASSWORD,
-);
-mongoose.connect(DB, {}).then(() => {
-  console.log('DB connection successful!');
-});
 
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
