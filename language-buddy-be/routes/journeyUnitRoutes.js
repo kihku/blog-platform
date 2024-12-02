@@ -1,6 +1,10 @@
 const express = require('express');
-const { getListUnit } = require('../controllers/journeyUnitController');
+const {
+  getListUnit,
+  createUnit,
+} = require('../controllers/journeyUnitController');
 const router = express.Router();
 
-router.route('/:id').get(getListUnit);
+router.route('/list').get(getListUnit);
+router.route('/create').post(createUnit);
 module.exports = router;

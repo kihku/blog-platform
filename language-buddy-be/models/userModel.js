@@ -3,6 +3,7 @@ const { baseModel } = require('./baseModel');
 
 const userSchema = new mongoose.Schema({
   ...baseModel,
+  __v: { type: Number, select: false },
   createdAt: {
     type: Date,
     default: Date.now(),

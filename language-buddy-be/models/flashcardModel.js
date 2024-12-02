@@ -1,6 +1,9 @@
 const mongoose = require('mongoose');
+const { baseModel } = require('./baseModel');
 
 const flashcardSchema = new mongoose.Schema({
+  ...baseModel,
+  __v: { type: Number, select: false },
   createdAt: {
     type: Date,
     default: Date.now(),

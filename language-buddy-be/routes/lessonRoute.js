@@ -6,8 +6,8 @@ const {
 } = require('../controllers/lessonController');
 const router = express.Router();
 
-router.route('/:id').get(getLesson);
 router.route('/list').get(getList);
 router.route('/create').post(create);
+router.route('/:id').get(getLesson);
 
 module.exports = router;

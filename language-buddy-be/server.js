@@ -79,7 +79,7 @@ const lessonRoute = require('./routes/lessonRoute');
 const uploadRoute = require('./routes/uploadRoute');
 
 app.use('/user', userRoute);
-app.use('/journeyUnit', journeyUnitRoute);
+app.use('/unit', journeyUnitRoute);
 app.use('/lesson', lessonRoute);
 app.use('/upload', uploadRoute);
 

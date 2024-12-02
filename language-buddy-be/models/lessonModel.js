@@ -3,6 +3,7 @@ const { baseModel } = require('./baseModel');
 
 const lessonSchema = new mongoose.Schema({
   ...baseModel,
+  __v: { type: Number, select: false },
   createdAt: {
     type: Date,
     default: Date.now(),
@@ -12,7 +13,7 @@ const lessonSchema = new mongoose.Schema({
     type: Date,
     default: Date.now(),
   },
-  name: { type: String, required: true, unique: true },
+  name: { type: String, required: true },
   description: {
     type: String,
     required: true,
@@ -25,7 +26,7 @@ const lessonSchema = new mongoose.Schema({
   data: {
     type: Object,
     required: true,
-  },
+  }, 
 });
 
 const Lesson = mongoose.model('Lesson', lessonSchema);

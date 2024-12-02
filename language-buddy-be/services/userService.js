@@ -3,7 +3,7 @@ const User = require('../models/userModel');
 async function userExist(email) {
   const user = await User.findOne({ email });
   if (user) {
-    return user;
+     return user;
   }
   return null;
 }

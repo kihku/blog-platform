@@ -7,6 +7,6 @@ const {
 
 const router = express.Router();
 router.param('id', checkId);
-router.route('/:id').get(getUser);
 router.route('/update').post(updateUser);
+router.route('/:id').get(getUser);
 module.exports = router;
