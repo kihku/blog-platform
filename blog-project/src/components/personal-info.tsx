@@ -1,5 +1,5 @@
 "use client";
-import { Button, DatePicker, Form, Input, Select, Spin } from "antd";
+import { Button, DatePicker, Form, Input, Select } from "antd";
 import React from "react";
 // import { validateMessages } from "../utils";
 import dayjs from "dayjs";
@@ -17,7 +17,7 @@ export function PersonalInfo({ userData, loading }: props) {
   const [form] = Form.useForm();
 
   return (
-    <Spin spinning={loading}>
+    <>
       {userData && (
         <Form
           className="dark:bg-stone-900"
@@ -161,6 +161,6 @@ export function PersonalInfo({ userData, loading }: props) {
       </div> */}
         </Form>
       )}
-    </Spin>
+    </>
   );
 }

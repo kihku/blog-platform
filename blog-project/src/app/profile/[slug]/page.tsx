@@ -5,7 +5,7 @@ import { useRequest } from "ahooks";
 import { Avatar, Tabs } from "antd";
 import { useParams } from "next/navigation";
 
-export default function Profile() {
+export default async function Profile() {
   const { slug } = useParams();
   const { data: userData, loading: loadingUserData } = useRequest(getUserInfo, {
     defaultParams: [{ id: slug }],

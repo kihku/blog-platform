@@ -1,5 +1,5 @@
-function objToParamString(params: Object) {
-  console.log(params);
+function objToParamString(params: object) {
+  console.log("param: " + JSON.stringify(params));
   let result = "";
   for (const [key, value] of Object.entries(params)) {
     if (value) {
@@ -14,8 +14,8 @@ export async function send_request({
   url = "",
   headers = {},
   params = {},
-  body = undefined,
-  token = undefined,
+  body,
+  token,
 } = {}) {
   const searchParams = objToParamString(params);
   url = url + (searchParams ? "?" : "") + searchParams;

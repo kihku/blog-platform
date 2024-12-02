@@ -1,6 +1,17 @@
 "use client";
 import ContentCard from "@/components/content-card";
-import { Button, Form, Input, message, Modal, Select, Upload } from "antd";
+import {
+  Button,
+  Checkbox,
+  Empty,
+  Form,
+  Input,
+  message,
+  Modal,
+  Radio,
+  Select,
+  Upload,
+} from "antd";
 import Dragger from "antd/es/upload/Dragger";
 import { useState } from "react";
 import { InboxOutlined } from "@ant-design/icons";
@@ -8,11 +19,14 @@ import { SLIDE_TYPE } from "@/constants";
 import LargeLabel from "@/components/large-label";
 
 import "./index.scss";
+import { useRequest } from "ahooks";
+import { createLesson } from "@/apis/lesson";
+import { useParams } from "next/navigation";
 
 export default function CreateLesson() {
   const [form] = Form.useForm();
+  const [basicInfoForm] = Form.useForm();
   const [slides, setSlide] = useState([]);
-  console.log(JSON.stringify(slides));
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const [slideType, setSlideType] = useState();
   const [openSlide, setOpenSide] = useState(false);
@@ -20,17 +34,12 @@ export default function CreateLesson() {
   const uploadProps = {
     name: "file",
     multiple: false,
-    action: "http://localhost:2000/upload",
-    onChange({ file }) {
-      const { status } = file;
-      if (status === "done") {
-        form.setFieldValue("media", file.response.data);
-        message.success(`${file.name} file uploaded successfully.`);
-      } else if (status === "error") {
-        message.error(`${file.name} file upload failed.`);
-      }
-    },
+    action: `${process.env.SERVER_HOST}/upload`,
   };
+
+  const { run: runCreateLesson } = useRequest(createLesson, { manual: true });
+  const { slug } = useParams();
+  console.log(slides);
   return (
     <div>
       <Modal
@@ -49,7 +58,7 @@ export default function CreateLesson() {
           }}
         >
           <div className="overflow-y-auto h-[350px] mb-5">
-            <Form.Item>
+            <Form.Item name="type">
               <Select
                 onChange={(value) => setSlideType(value)}
                 placeholder="Choose slide type"
@@ -76,8 +85,21 @@ export default function CreateLesson() {
                 <Form.Item name="title">
                   <Input size="large" placeholder="Enter some text" />
                 </Form.Item>
-                <Form.Item name="media">
-                  <Dragger {...uploadProps}>
+                <Form.Item name="file">
+                  <Dragger
+                    {...uploadProps}
+                    onChange={({ file }) => {
+                      const { status } = file;
+                      if (status === "done") {
+                        form.setFieldValue("file", file.response.data);
+                        message.success(
+                          `${file.name} file uploaded successfully.`
+                        );
+                      } else if (status === "error") {
+                        message.error(`${file.name} file upload failed.`);
+                      }
+                    }}
+                  >
                     <p className="ant-upload-drag-icon">
                       <InboxOutlined />
                     </p>
@@ -95,22 +117,35 @@ export default function CreateLesson() {
                 </Form.Item>
               </>
             )}
+            <Form.Item name="answerA" className="hidden" />
             {slideType == SLIDE_TYPE.MULTIPLE_CHOICE && (
               <>
                 <Form.Item name="title">
                   <Input size="large" placeholder="Enter some text" />
                 </Form.Item>
-                <Form.Item name="answerA">
+                <Form.Item name={["answerA", "text"]}>
                   <Input size="large" placeholder="Enter Answer 1" />
                 </Form.Item>
-                <Form.Item name="answerB">
+                <Form.Item valuePropName="checked" name={["answerA", "value"]}>
+                  <Checkbox value={false} defaultChecked={false} />
+                </Form.Item>
+                <Form.Item name={["answerB", "text"]}>
                   <Input size="large" placeholder="Enter Answer 2" />
                 </Form.Item>
-                <Form.Item name="answerC">
+                <Form.Item valuePropName="checked" name={["answerB", "value"]}>
+                  <Checkbox value={false} defaultChecked={false} />
+                </Form.Item>
+                <Form.Item name={["answerC", "text"]}>
                   <Input size="large" placeholder="Enter Answer 3" />
                 </Form.Item>
-                <Form.Item name="answerD">
+                <Form.Item valuePropName="checked" name={["answerC", "value"]}>
+                  <Checkbox value={false} defaultChecked={false} />
+                </Form.Item>
+                <Form.Item name={["answerD", "text"]}>
                   <Input size="large" placeholder="Enter Answer 4" />
+                </Form.Item>
+                <Form.Item valuePropName="checked" name={["answerD", "value"]}>
+                  <Checkbox value={false} defaultChecked={false} />
                 </Form.Item>
               </>
             )}
@@ -141,11 +176,11 @@ export default function CreateLesson() {
         onCancel={() => setOpenSettings(false)}
         footer={[]}
       >
-        <Form layout="vertical">
+        <Form form={basicInfoForm} layout="vertical">
           <div className="flex flex-col lg:flex-row gap-10">
             <div>
               <Form.Item
-                name="lessonTitle"
+                name="name"
                 label={LargeLabel({
                   title: "Title",
                   subtitle: "Enter a Title for your Lesson",
@@ -154,16 +189,34 @@ export default function CreateLesson() {
                 <Input size="large" />
               </Form.Item>
               <Form.Item
-                name="lessonLanguage"
+                name="language"
                 label={LargeLabel({
                   title: "Language",
                   subtitle: "Choose a language for your lesson.",
                 })}
               >
-                <Select size="large" />
+                <Select
+                  size="large"
+                  options={[{ value: "JP", label: "Japanese" }]}
+                />
               </Form.Item>
               <Form.Item
-                name="lessonDescription"
+                name="type"
+                label={LargeLabel({
+                  title: "Type",
+                  subtitle: "Provide a type for your lesson.",
+                })}
+              >
+                <Select
+                  options={[
+                    { value: "GRAMMAR", label: "Grammar" },
+                    { value: "VOCAB", label: "Vocabulary" },
+                  ]}
+                  size="large"
+                />
+              </Form.Item>
+              <Form.Item
+                name="description"
                 label={LargeLabel({
                   title: "Description",
                   subtitle:
@@ -175,6 +228,7 @@ export default function CreateLesson() {
             </div>
             <div>
               <Form.Item
+                name="coverImage"
                 label={LargeLabel({
                   title: "Cover Image",
                   subtitle: "Upload a cover image for your lesson",
@@ -182,11 +236,22 @@ export default function CreateLesson() {
                 className="customSizedUpload"
               >
                 <Upload
-                  action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"
+                  {...uploadProps}
+                  onChange={({ file }) => {
+                    const { status } = file;
+                    if (status === "done") {
+                      basicInfoForm.setFieldValue(
+                        "coverImage",
+                        file.response.data
+                      );
+                      message.success(
+                        `${file.name} file uploaded successfully.`
+                      );
+                    } else if (status === "error") {
+                      message.error(`${file.name} file upload failed.`);
+                    }
+                  }}
                   listType="picture-card"
-                  // fileList={fileList}
-                  // onPreview={handlePreview}
-                  // onChange={handleChange}
                 >
                   <p className="font-bold bg-slate-500 text-white py-1 px-3 rounded-md">
                     Add Image
@@ -211,7 +276,17 @@ export default function CreateLesson() {
             Settings
           </p>
         </Button>
-        <Button size="large" type="primary">
+        <Button
+          size="large"
+          type="primary"
+          onClick={() => {
+            runCreateLesson({
+              journeyUnitId: slug,
+              ...basicInfoForm.getFieldsValue(),
+              data: slides,
+            });
+          }}
+        >
           Submit
         </Button>
       </div>
@@ -236,18 +311,24 @@ export default function CreateLesson() {
             Add Slide
           </Button>
         </div>
-        <div className="ml-10 mt-28 w-[80%] text-center gap-5 flex flex-col">
-          <p className="font-bold text-2xl lg:text-5xl">
-            {slides[currentSlideIndex]?.title}
-          </p>
-          <img
-            alt="Slide content"
-            src={`http://${slides[currentSlideIndex]?.media?.url}`}
-            className="ml-auto mr-auto h-[55%] w-fit rounded-md border-2"
-          />
-          <p className="font-bold text-2xl lg:text-5xl">
-            {slides[currentSlideIndex]?.content}
-          </p>
+        <div className="w-full">
+          {slides.length > 0 ? (
+            <div className="ml-10 mt-28 w-[80%] text-center gap-5 flex flex-col">
+              <p className="font-bold text-2xl lg:text-5xl">
+                {slides[currentSlideIndex]?.title}
+              </p>
+              <img
+                alt="Slide content"
+                src={`http://${slides[currentSlideIndex]?.file?.url}`}
+                className="ml-auto mr-auto h-[55%] w-fit rounded-md border-2"
+              />
+              <p className="font-bold text-2xl lg:text-5xl">
+                {slides[currentSlideIndex]?.content}
+              </p>
+            </div>
+          ) : (
+            <Empty className="mt-48" />
+          )}
         </div>
       </div>
     </div>
