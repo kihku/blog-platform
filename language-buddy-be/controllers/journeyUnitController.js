@@ -1,27 +1,31 @@
 const { createUnit, getUnitList } = require('../services/journeyUnitService');
 
 exports.getListUnit = async (req, res) => {
-  try {
-    const units = await getUnitList(req.params);
-    res.status(201).json({ status: 'success', data: units });
-  } catch (err) {
+  let error;
+  const units = await getUnitList(req.params).catch((err) => {
+    error = err;
+  });
+  if (error) {
     res.status(400).json({
       status: 'fail',
-      message: err._message,
+      message: error,
     });
+  } else {
+    res.status(201).json({ status: 'success', data: units });
   }
 };
 
 exports.createUnit = async (req, res) => {
-  try {
-    const unit = await createUnit(req.body);
-    res
-      .status(201)
-      .json({ status: 'success', data: { id: unit._id.toString() } });
-  } catch (err) { 
+  let error;
+  const unit = await createUnit(req.body).catch((err) => (error = err));
+  if (error) {
     res.status(400).json({
       status: 'fail',
       message: err._message,
     });
+  } else {
+    res
+      .status(201)
+      .json({ status: 'success', data: { id: unit._id.toString() } });
   }
-}; 
+};

@@ -11,14 +11,15 @@ exports.checkId = (req, res, next, val) => {
 };
 
 exports.getUser = async (req, res) => {
-  try {
-    const user = await User.findById(req.params.id);
-    res.status(201).json({ status: 'success', data: user });
-  } catch (err) {
+  let error;
+  const user = await User.findById(req.params.id).catch((err) => (error = err));
+  if (error) {
     res.status(400).json({
       status: 'fail',
-      message: err,
+      message: error,
     });
+  } else {
+    res.status(201).json({ status: 'success', data: user });
   }
 };
 

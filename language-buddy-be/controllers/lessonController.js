@@ -5,16 +5,17 @@ const {
 } = require('../services/lessonService');
 
 exports.create = async (req, res) => {
-  try {
-    const lesson = await createLesson(req.body);
-    res.status(200).json({
-      status: 'success',
-      data: lesson,
-    });
-  } catch (err) {
+  let error;
+  const lesson = await createLesson(req.body).catch((err) => (error = err));
+  if (error) {
     res.status(400).json({
       status: 'fail',
       message: err,
+    });
+  } else {
+    res.status(200).json({
+      status: 'success',
+      data: lesson,
     });
   }
 };
