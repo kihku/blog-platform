@@ -11,7 +11,6 @@ export default function Profile() {
   const { data: userData, loading: loadingUserData } = useRequest(getUserInfo, {
     defaultParams: [{ id: slug }],
   });
-  console.log(userData);
   const TAB_ITEMS = [
     {
       key: "PERSONAL_INFO",

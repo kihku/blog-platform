@@ -6,16 +6,17 @@ import { Button } from "antd";
 import Transition from "@/components/transition";
 
 export default function Home() {
+  const cookies = useCookies();
   const [, setAuthToken] = useSessionStorageState<string | undefined>(
     "authToken"
   );
   const [, setUserId] = useSessionStorageState<string | undefined>("userId");
-  const cookies = useCookies();
+
   useEffect(() => {
     setAuthToken(cookies.get("auth_token"));
     setUserId(cookies.get("user_id"));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cookies, setAuthToken]);
+  }, [cookies.get("authToken")?.toString(), cookies.get("userId")?.toString()]);
   return (
     <Transition>
       <div className="lg:px-72 lg:py-32 py-10 px-5">

@@ -4,10 +4,10 @@ import { LessonCard } from "@/components/lesson-card";
 import Transition from "@/components/transition";
 import { Lesson, Unit } from "@/types";
 import { useRequest, useSessionStorageState, useUpdateEffect } from "ahooks";
-import { Button, Card, Drawer, Skeleton } from "antd";
+import { Button, Card, Drawer } from "antd";
 import Meta from "antd/es/card/Meta";
 import { redirect } from "next/navigation";
-import { Suspense, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 const StudyJourney = () => {
   const [selectedUnit, setSelectedUnit] = useState<Unit>();
@@ -49,36 +49,34 @@ const StudyJourney = () => {
             />
           ))}
         </Drawer>
-        <div>
-          <Suspense fallback={<Skeleton className="h-40 w-40" />}>
-            {units?.map((unit: Unit) => (
-              <Card
-                key={unit._id}
-                className="lg:w-[300px] w-full shadow-md"
-                cover={
-                  <img
-                    alt="example"
-                    loading="lazy"
-                    src={`http://${unit.coverImage.url}`}
-                  />
-                }
-                actions={[
-                  <Button
-                    type="text"
-                    key="add"
-                    onClick={() => {
-                      setSelectedUnit(unit);
-                      setOpen(true);
-                    }}
-                  >
-                    Study
-                  </Button>,
-                ]}
-              >
-                <Meta title={unit.name} description={unit.description} />
-              </Card>
-            ))}
-          </Suspense>
+        <div className="flex flex-wrap gap-5">
+          {units?.map((unit: Unit) => (
+            <Card
+              key={unit._id}
+              className="lg:w-[300px] w-full shadow-md"
+              cover={
+                <img
+                  alt="example"
+                  loading="lazy"
+                  src={`http://${unit.coverImage.url}`}
+                />
+              }
+              actions={[
+                <Button
+                  type="text"
+                  key="add"
+                  onClick={() => {
+                    setSelectedUnit(unit);
+                    setOpen(true);
+                  }}
+                >
+                  Study
+                </Button>,
+              ]}
+            >
+              <Meta title={unit.name} description={unit.description} />
+            </Card>
+          ))}
         </div>
       </div>
     </Transition>

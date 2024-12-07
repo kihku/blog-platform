@@ -45,7 +45,9 @@ export default function Header() {
     );
   };
 
-  const [_authToken] = useSessionStorageState<string | undefined>("authToken");
+  const [_authToken] = useSessionStorageState<string | undefined>("authToken", {
+    listenStorageChange: true,
+  });
   const [authToken, setAuthToken] = useState<string>();
   useEffect(() => {
     if (_authToken) {

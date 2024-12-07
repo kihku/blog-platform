@@ -8,24 +8,24 @@
 }
 @media (prefers-color-scheme: light) {
   :root {
-    --background: #fdb095;
+    --background: #ffffff;
     --primary: #e5958e;
     --highlight: #ffba00;
-    --secondary-color: #210440;
+    --secondary-color: #000000df;
   }
 }
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #081f5c;
-    --primary: #7096d1;
-    --highlight: #bad6eb;
-    --secondary-color: #f2f0de;
+    --background: #ffffff;
+    --primary: #e5958e;
+    --highlight: #ffba00;
+    --secondary-color: #000000ef;
   }
 }
 
 body {
   color: var(--secondary-color);
-  /* background: var(--background); */
+  background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
 

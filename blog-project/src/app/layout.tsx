@@ -22,7 +22,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html className={openSans.className} lang="en">
+    <html className={openSans.className} data-theme="light" lang="en">
       <head>
         <link
           rel="stylesheet"
