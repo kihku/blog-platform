@@ -13,8 +13,9 @@ const journeyUnitSchema = new mongoose.Schema({
     type: Date,
     default: Date.now(),
   },
+  order: { type: Number, required: true, unique: true },
   language: { type: String, required: true },
-  name: { type: String, required: true, unique: true },
+  name: { type: String, required: true },
   description: {
     type: String,
     required: true,
@@ -22,7 +23,7 @@ const journeyUnitSchema = new mongoose.Schema({
   level: { type: String, required: true },
   coverImage: { type: Object },
 });
-journeyUnitSchema.index({ env: 1, name: 1 }, { unique: true });
+journeyUnitSchema.index({ env: 1, order: 1 }, { unique: true });
 journeyUnitSchema.pre(
   /^find|findOne|update|delete|count|distinct|aggregate/,
   function () {

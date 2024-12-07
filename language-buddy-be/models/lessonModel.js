@@ -14,6 +14,7 @@ const lessonSchema = new mongoose.Schema({
     default: Date.now(),
   },
   name: { type: String, required: true },
+  order: { type: Number, required: true },
   description: {
     type: String,
     required: true,
@@ -26,8 +27,15 @@ const lessonSchema = new mongoose.Schema({
   data: {
     type: Object,
     required: true,
-  }, 
+  },
 });
+lessonSchema.index({ env: 1, order: 1 }, { unique: true });
+lessonSchema.pre(
+  /^find|findOne|update|delete|count|distinct|aggregate/,
+  function () {
+    this.setQuery({ ...this.getQuery(), env: process.env.NODE_ENV });
+  },
+);
 
 const Lesson = mongoose.model('Lesson', lessonSchema);
 module.exports = Lesson;

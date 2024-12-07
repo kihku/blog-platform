@@ -10,7 +10,7 @@ exports.create = async (req, res) => {
   if (error) {
     res.status(400).json({
       status: 'fail',
-      message: err,
+      message: error.message,
     });
   } else {
     res.status(200).json({
