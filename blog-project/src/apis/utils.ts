@@ -27,7 +27,7 @@ export async function send_request({
 }: props) {
   const searchParams = objToParamString(params);
   url = url + (searchParams ? "?" : "") + searchParams;
-  const result = await fetch(process.env.SERVER_HOST + url, {
+  const result = await fetch(process.env.NEXT_PUBLIC_SERVER_HOST + url, {
     headers: {
       "Content-Type": "application/json",
       ...(token && { Authorization: `Bearer ${token}` }),

@@ -18,7 +18,7 @@ export default function ManageJourney() {
   const uploadProps = {
     name: "file",
     multiple: false,
-    action: `${process.env.SERVER_HOST}/upload`,
+    action: `${process.env.NEXT_PUBLIC_SERVER_HOST}/upload`,
   };
   const { run: runCreateUnit } = useRequest(createUnit, {
     manual: true,

@@ -51,7 +51,7 @@ export default function Login() {
             </div>
             <div className="mt-8 space-y-4">
               <Button
-                href={`${process.env.SERVER_HOST}/auth/google`}
+                href={`${process.env.NEXT_PUBLIC_SERVER_HOST}/auth/google`}
                 size="large"
                 className="flex items-center justify-center gap-2 shadow-md"
               >
