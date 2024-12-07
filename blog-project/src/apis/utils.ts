@@ -9,6 +9,14 @@ function objToParamString(params: object) {
   }
   return result;
 }
+type props = {
+  body?: object;
+  token?: string;
+  params?: object;
+  headers?: object;
+  url: string;
+  method: string | undefined;
+};
 export async function send_request({
   method = "GET",
   url = "",
@@ -16,7 +24,7 @@ export async function send_request({
   params = {},
   body,
   token,
-} = {}) {
+}: props) {
   const searchParams = objToParamString(params);
   url = url + (searchParams ? "?" : "") + searchParams;
   const result = await fetch(process.env.SERVER_HOST + url, {

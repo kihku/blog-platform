@@ -1,5 +1,5 @@
 "use client";
-import { Button, DatePicker, Form, Input, Select } from "antd";
+import { DatePicker, Form, Input, Select } from "antd";
 import React from "react";
 // import { validateMessages } from "../utils";
 import dayjs from "dayjs";
@@ -13,7 +13,7 @@ type props = {
   };
   loading?: boolean;
 };
-export function PersonalInfo({ userData, loading }: props) {
+export function PersonalInfo({ userData }: props) {
   const [form] = Form.useForm();
 
   return (
