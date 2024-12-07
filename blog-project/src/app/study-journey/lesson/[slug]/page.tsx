@@ -1,22 +1,37 @@
 "use client";
 
-import { getLesson } from "@/apis";
+import { completeLesson, getLesson } from "@/apis";
+import Transition from "@/components/transition";
 import { Slide } from "@/types";
 import { useRequest } from "ahooks";
 import { Button } from "antd";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
+import "./index.scss";
+
 export default function Lesson() {
   const { slug } = useParams();
+  const [fadeClass, setFadeClass] = useState("");
+
   const [curSlide, setCurSlide] = useState(0);
+  useEffect(() => {
+    setFadeClass("fade-in");
+  }, [curSlide]);
   const { data: lesson } = useRequest(getLesson, {
     ready: !!slug,
     defaultParams: [{ id: slug as string }],
   });
+  const { run: runCompleteLesson } = useRequest(completeLesson, {
+    manual: true,
+    onSuccess: () => {
+      window.open(`/study-journey`, "_self");
+    },
+  });
   const [isCheckMultiple, SetIsCheckMultiple] = useState(false);
   const processNextSlide = () => {
     if (!needAnswer) {
+      setFadeClass("");
       setCurSlide(curSlide + 1);
     }
     SetIsCheckMultiple(false);
@@ -41,7 +56,9 @@ export default function Lesson() {
     };
     const isFinish = curSlide === lesson?.data.length;
     return (
-      <div className="relative shadow-md rounded-md lg:p-28 p-5 lg:w-[80%] h-[80vh] w-full flex flex-col justify-center items-center text-center gap-5">
+      <div
+        className={`${fadeClass} relative shadow-md rounded-md lg:p-28 p-5 lg:w-[80%] h-[80vh] w-full flex flex-col justify-center items-center text-center gap-5`}
+      >
         {!isFinish ? (
           <div
             className={`rounded-md w-10 h-40 ${
@@ -55,10 +72,20 @@ export default function Lesson() {
           </div>
         ) : (
           <>
-            <div className="h-[400px]">
-              <img loading="lazy" src="/img/lesson/finish.png" />
+            <div className={`${fadeClass} h-[400px]`}>
+              <img
+                alt="slide-image"
+                loading="lazy"
+                src="/img/lesson/finish.png"
+              />
             </div>
-            <Button type="primary" href="/study-journey" size="large">
+            <Button
+              type="primary"
+              size="large"
+              onClick={() => {
+                runCompleteLesson();
+              }}
+            >
               Back to Journey
             </Button>
           </>
@@ -68,6 +95,7 @@ export default function Lesson() {
           <>
             <div className="h-72 w-72 rounded-md m-auto">
               <img
+                alt="slide image"
                 loading="lazy"
                 className="h-full m-auto"
                 src={`http://${slide?.file?.url}`}
@@ -113,18 +141,21 @@ export default function Lesson() {
           </div>
         )}
         {slide?.type === "TRUE_FALSE_QUESTION" && (
-          <div className="flex flex-col gap-5 items-center mt-5"></div>
+          <div className="flex gap-5 items-center mt-5">
+            <Button>True</Button>
+            <Button>False</Button>
+          </div>
         )}
       </div>
     );
   };
   return (
-    <>
+    <Transition>
       <div className="p-5 lg:px-72 py-10 h-full">
         <div className="flex justify-center h-full">
           {processSlideContent(lesson?.data[curSlide] as Slide)}
         </div>
       </div>
-    </>
+    </Transition>
   );
 }

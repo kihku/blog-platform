@@ -8,7 +8,6 @@ import {
   Input,
   message,
   Modal,
-  Radio,
   Select,
   Upload,
 } from "antd";
@@ -22,13 +21,14 @@ import "./index.scss";
 import { useRequest } from "ahooks";
 import { createLesson } from "@/apis/lesson";
 import { useParams } from "next/navigation";
+import { Slide } from "@/types";
 
 export default function CreateLesson() {
   const [form] = Form.useForm();
   const [basicInfoForm] = Form.useForm();
-  const [slides, setSlide] = useState([]);
+  const [slides, setSlide] = useState<Slide[]>([]);
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
-  const [slideType, setSlideType] = useState();
+  const [slideType, setSlideType] = useState<string>();
   const [openSlide, setOpenSide] = useState(false);
   const [openSettings, setOpenSettings] = useState(false);
   const uploadProps = {
@@ -53,14 +53,17 @@ export default function CreateLesson() {
           form={form}
           className="h-[400px]"
           onFinish={(value) => {
-            setSlide([...slides, value]);
+            setSlide([
+              ...slides,
+              { ...value, order: slides.length + 1 },
+            ] as Slide[]);
             form.resetFields();
           }}
         >
           <div className="overflow-y-auto h-[350px] mb-5">
             <Form.Item name="type">
               <Select
-                onChange={(value) => setSlideType(value)}
+                onChange={(value) => setSlideType(value as unknown as string)}
                 placeholder="Choose slide type"
                 size="large"
                 defaultValue={{
@@ -153,6 +156,9 @@ export default function CreateLesson() {
               <>
                 <Form.Item name="title">
                   <Input size="large" placeholder="Enter some text" />
+                </Form.Item>
+                <Form.Item valuePropName="checked" name="isCorrect">
+                  <Checkbox value={false} defaultChecked={false} />
                 </Form.Item>
               </>
             )}

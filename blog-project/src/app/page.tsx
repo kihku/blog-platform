@@ -3,21 +3,21 @@ import { useCookies } from "next-client-cookies";
 import { useEffect } from "react";
 import { useSessionStorageState } from "ahooks";
 import { Button } from "antd";
+import Transition from "@/components/transition";
 
 export default function Home() {
   const [, setAuthToken] = useSessionStorageState<string | undefined>(
     "authToken"
   );
-  const [, setUserId] = useSessionStorageState<string | undefined>(
-    "userId"
-  );
+  const [, setUserId] = useSessionStorageState<string | undefined>("userId");
   const cookies = useCookies();
   useEffect(() => {
     setAuthToken(cookies.get("auth_token"));
     setUserId(cookies.get("user_id"));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cookies, setAuthToken]);
   return (
-    <div>
+    <Transition>
       <div className="lg:px-72 lg:py-32 py-10 px-5">
         <div className="flex lg:flex-row gap-20 flex-col">
           <img
@@ -35,6 +35,7 @@ export default function Home() {
                 className="w-72 shadow-md h-12"
                 type="primary"
                 size="large"
+                href={`/study-journey`}
               >
                 <p className="font-bold">Get started</p>
               </Button>
@@ -52,6 +53,6 @@ export default function Home() {
           <p className="mt-2">JAPANESE</p>
         </div>
       </div>
-    </div>
+    </Transition>
   );
 }

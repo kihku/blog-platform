@@ -51,10 +51,18 @@ export default function ProfileAvatar() {
                 Logout
               </Button>
               <hr className="my-2" />
-              <Button type="text" className="mb-1 font-bold">
+              <Button
+                type="text"
+                href="/privacy-and-policy"
+                className="mb-1 font-bold"
+              >
                 Privacy and policy
               </Button>
-              <Button type="text" className="mb-1 font-bold">
+              <Button
+                type="text"
+                className="mb-1 font-bold"
+                href="/frequently-asked-questions"
+              >
                 Frequently asked questions
               </Button>
               <Button type="text" className="mb-1 font-bold">

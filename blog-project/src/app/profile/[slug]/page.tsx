@@ -1,11 +1,12 @@
 "use client";
 import { getUserInfo } from "@/apis";
 import { PersonalInfo } from "@/components/personal-info";
+import Transition from "@/components/transition";
 import { useRequest } from "ahooks";
 import { Avatar, Tabs } from "antd";
 import { useParams } from "next/navigation";
 
-export default async function Profile() {
+export default function Profile() {
   const { slug } = useParams();
   const { data: userData, loading: loadingUserData } = useRequest(getUserInfo, {
     defaultParams: [{ id: slug }],
@@ -29,7 +30,7 @@ export default async function Profile() {
   ];
 
   return (
-    <>
+    <Transition>
       <section className="relative block h-[50vh]">
         <div className="bg-profile-background absolute top-0 h-full w-full scale-100 bg-[url('/img/profile/background.jpg')] bg-cover bg-center" />
         {/* <div className="absolute top-0 h-full w-full bg-black/40 bg-cover bg-center dark:bg-slate-900/40" /> */}
@@ -71,6 +72,6 @@ export default async function Profile() {
           </div>
         </div>
       </section>
-    </>
+    </Transition>
   );
 }

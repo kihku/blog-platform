@@ -1,6 +1,6 @@
 "use client";
 import { Button, Card, Form, Input, message, Modal, Select } from "antd";
-import { EditOutlined, InboxOutlined } from "@ant-design/icons";
+import { InboxOutlined } from "@ant-design/icons";
 import Meta from "antd/es/card/Meta";
 import Dragger from "antd/es/upload/Dragger";
 import { useState } from "react";
@@ -164,13 +164,13 @@ export default function ManageJourney() {
           <Button
             onClick={() => setOpenCreate(true)}
             size="large"
-            icon={<i className="fa-solid fa-plus"></i>}
+            icon={<i className="fa-solid fa-plus" />}
           >
             New Unit
           </Button>
         </div>
       </div>
-      <div className="mt-7">
+      <div className="mt-7 gap-5 flex flex-wrap">
         {units?.map((unit: Unit) => (
           <Card
             key={unit._id}

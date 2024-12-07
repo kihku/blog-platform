@@ -1,19 +1,14 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
 import Header from "@/components/header";
+import { AntdRegistry } from "@ant-design/nextjs-registry";
+import { Open_Sans } from "next/font/google";
 
 import "./globals.css";
 import { CookiesProvider } from "next-client-cookies/server";
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
+const openSans = Open_Sans({
+  subsets: ["latin"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -27,7 +22,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html className={openSans.className} lang="en">
       <head>
         <link
           rel="stylesheet"
@@ -38,12 +33,12 @@ export default function RootLayout({
         />
       </head>
 
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={`antialiased`}>
         <CookiesProvider>
-          <Header />
-          {children}
+          <AntdRegistry>
+            <Header />
+            {children}
+          </AntdRegistry>
         </CookiesProvider>
       </body>
     </html>

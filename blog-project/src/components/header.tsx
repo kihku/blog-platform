@@ -5,8 +5,10 @@ import { useEffect, useState } from "react";
 import { Button, Divider, Drawer } from "antd";
 import { useSessionStorageState } from "ahooks";
 import dynamic from "next/dynamic";
+import { usePathname } from "next/navigation";
 const ProfileAvatar = dynamic(() => import("./profile_avatar"), { ssr: false });
 export default function Header() {
+  const pathname = usePathname();
   const [openMenu, setOpenMenu] = useState(false);
   const menuItems = [
     { label: "Home", icon: "fa-solid fa-house", href: "/" },
@@ -51,7 +53,7 @@ export default function Header() {
     }
   }, [_authToken]);
   return (
-    <div>
+    <div className={`${pathname == "/login" ? "hidden" : ""}`}>
       <Drawer
         width={300}
         placement="left"
