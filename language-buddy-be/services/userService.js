@@ -1,4 +1,5 @@
 const User = require('../models/userModel');
+const { getUnit } = require('./journeyUnitService');
 
 async function userExist(email) {
   const user = await User.findOne({ email });
@@ -14,7 +15,7 @@ async function createUser(req) {
     role: 'USER',
     firstName: req.name?.givenName,
     lastName: req.name?.familyName,
-    progress: { unit: 1, lesson: 1 },
+    progress: { unit: { id: null, order: 0 }, lesson: { id: null, order: 0 } },
   });
   return newUser;
 }
@@ -29,7 +30,24 @@ async function createNewUser(req) {
 }
 
 async function updateProgress(req) {
-  await User.updateOne({ _id: req.id }, { $set: { progress: req.progress } });
+  if (!req.id) {
+    throw new Error('Missing user Id');
+  }
+  const unit = await getUnit({ id: req.unit.id });
+  await User.updateOne(
+    { _id: req.id },
+    {
+      $set: {
+        progress: {
+          lesson: req.lesson,
+          unit: {
+            id: req.unit.id,
+            order: unit.order,
+          },
+        },
+      },
+    },
+  );
   return true;
 }
 

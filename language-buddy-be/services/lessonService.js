@@ -4,7 +4,8 @@ async function createLesson(req) {
   if (!req.journeyUnitId || !req.name) {
     throw new Error('Invalid request, Missing ID or name');
   }
-  const lastestRecord = await getHighestOrder();
+  const lastestRecord = await getHighestOrder(req.journeyUnitId);
+  console.log(lastestRecord);
   const order = lastestRecord ? lastestRecord.order + 1 : 1;
   const newLesson = await Lesson.create({ ...req, order });
   return newLesson;
@@ -26,9 +27,12 @@ async function getLesson(req) {
   return lesson;
 }
 
-async function getHighestOrder() {
+async function getHighestOrder(journeyUnitId) {
   try {
     const [maxOrderResult] = await Lesson.aggregate([
+      {
+        $match: { journeyUnitId }, // Filter by journeyUnitId
+      },
       {
         $group: {
           _id: null,

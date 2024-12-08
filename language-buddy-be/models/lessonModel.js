@@ -29,7 +29,7 @@ const lessonSchema = new mongoose.Schema({
     required: true,
   },
 });
-lessonSchema.index({ env: 1, order: 1 }, { unique: true });
+lessonSchema.index({ env: 1, order: 1, journeyUnitId: 1 }, { unique: true });
 lessonSchema.pre(
   /^find|findOne|update|delete|count|distinct|aggregate/,
   function () {

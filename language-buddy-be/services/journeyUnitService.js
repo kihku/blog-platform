@@ -11,6 +11,10 @@ async function getUnitList(req) {
   const units = await JourneyUnit.find(req);
   return units;
 }
+async function getUnit(req) {
+  const unit = await JourneyUnit.findOne({ _id: req.id });
+  return unit;
+}
 
 async function getHighestOrder() {
   try {
@@ -37,4 +41,5 @@ async function getHighestOrder() {
 module.exports = {
   createUnit,
   getUnitList,
+  getUnit,
 };

@@ -11,7 +11,7 @@ exports.upload = async (req, res) => {
   if (error) {
     res.status(400).json({
       status: 'fail',
-      message: error,
+      message: error.message,
     });
   } else {
     res.status(200).json({
