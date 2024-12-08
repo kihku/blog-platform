@@ -6,17 +6,17 @@ exports.checkBucket = async (req, res, next) => {
 };
 
 exports.upload = async (req, res) => {
-  try {
-    const data = await uploadFile(req.file);
-    res.status(200).json({
-      status: 'success',
-      data,
-    });
-  } catch (error) {
+  let error;
+  const data = await uploadFile(req.file).catch((err) => (error = err));
+  if (error) {
     res.status(400).json({
       status: 'fail',
       message: error,
     });
+  } else {
+    res.status(200).json({
+      status: 'success',
+      data,
+    });
   }
 };
-
