@@ -31,7 +31,7 @@ export async function getLesson({ id }: { id: string }) {
 export async function completeLesson() {
   const data = await send_request({
     method: "POST",
-    url: "/lesson/complete",
+    url: "/user/completeLesson",
     // params: { ...props },
   });
   return data?.data;

@@ -175,7 +175,7 @@ export default function ManageJourney() {
           <Card
             key={unit._id}
             className="lg:w-[300px] w-full"
-            cover={<img alt="example" src={`http://${unit.coverImage.url}`} />}
+            cover={<img alt="example" src={`${unit.coverImage.url}`} />}
             actions={[
               <Button
                 type="text"
