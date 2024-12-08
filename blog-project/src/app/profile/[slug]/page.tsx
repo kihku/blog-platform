@@ -42,7 +42,7 @@ export default function Profile() {
                 <div className="h-40 w-40">
                   <Avatar
                     src="/img/profile/avatar.jpg"
-                    size="large"
+                    size={150}
                     alt="Profile picture"
                     className="h-full w-full"
                   />
