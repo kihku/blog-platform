@@ -24,7 +24,7 @@ export async function getListLesson(props: Filter) {
 }
 
 export async function getLesson({ id }: { id: string }) {
-  const data = await send_request({ method: "GET", url: `/lesson/${id}` });
+  const data = await send_request({ method: "GET", url: `/api/lesson/${id}` });
   return data?.data as Lesson;
 }
 

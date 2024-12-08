@@ -98,7 +98,7 @@ export default function Lesson() {
                 alt="slide image"
                 loading="lazy"
                 className="h-full m-auto"
-                src={`http://${slide?.file?.url}`}
+                src={`${slide?.file?.url}`}
               />
             </div>
             <p className="font-bold text-2xl">{slide?.content}</p>

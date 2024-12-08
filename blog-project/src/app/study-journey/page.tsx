@@ -58,7 +58,7 @@ const StudyJourney = () => {
                 <img
                   alt="example"
                   loading="lazy"
-                  src={`http://${unit.coverImage.url}`}
+                  src={`${unit.coverImage.url}`}
                 />
               }
               actions={[

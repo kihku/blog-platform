@@ -325,7 +325,7 @@ export default function CreateLesson() {
               </p>
               <img
                 alt="Slide content"
-                src={`http://${slides[currentSlideIndex]?.file?.url}`}
+                src={`${slides[currentSlideIndex]?.file?.url}`}
                 className="ml-auto mr-auto h-[55%] w-fit rounded-md border-2"
               />
               <p className="font-bold text-2xl lg:text-5xl">
