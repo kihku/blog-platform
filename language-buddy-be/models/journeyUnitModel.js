@@ -13,7 +13,7 @@ const journeyUnitSchema = new mongoose.Schema({
     type: Date,
     default: Date.now(),
   },
-  order: { type: Number, required: true, unique: true },
+  order: { type: Number, required: true },
   language: { type: String, required: true },
   name: { type: String, required: true },
   description: {

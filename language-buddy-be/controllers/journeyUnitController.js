@@ -21,7 +21,7 @@ exports.createUnit = async (req, res) => {
   if (error) {
     res.status(400).json({
       status: 'fail',
-      message: error._message,
+      message: error.message,
     });
   } else {
     res
