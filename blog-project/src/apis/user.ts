@@ -5,7 +5,7 @@ type props = {
 export async function getUserInfo({ id }: props) {
   const data = await send_request({
     method: "GET",
-    url: `/user/${id}`,
+    url: `/api/user/${id}`,
   });
   return data?.data;
 }
