@@ -7,6 +7,7 @@ export type Unit = {
   description: string;
   level: string;
   coverImage: Media;
+  order: number;
 };
 
 export type Lesson = {
@@ -16,6 +17,7 @@ export type Lesson = {
   description: string;
   journeyUnitId: string;
   data: Slide[];
+  order: number;
 };
 
 export type Slide = {

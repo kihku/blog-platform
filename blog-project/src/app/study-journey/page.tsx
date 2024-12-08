@@ -1,5 +1,5 @@
 "use client";
-import { getListLesson, getUnitList } from "@/apis";
+import { getListLesson, getUnitList, getUserInfo } from "@/apis";
 import { LessonCard } from "@/components/lesson-card";
 import Transition from "@/components/transition";
 import { Lesson, Unit } from "@/types";
@@ -12,10 +12,19 @@ import { useEffect, useState } from "react";
 const StudyJourney = () => {
   const [selectedUnit, setSelectedUnit] = useState<Unit>();
   const { data: units } = useRequest(getUnitList);
-  const { data: lessons, run: runGetLessonList } = useRequest(getListLesson, {
+  const {
+    data: lessons,
+    run: runGetLessonList,
+    loading: loadingLesson,
+  } = useRequest(getListLesson, {
     manual: true,
   });
+
   const [userId] = useSessionStorageState<string | undefined>("userId");
+  const { data: userData } = useRequest(getUserInfo, {
+    defaultParams: [{ id: userId! }],
+    ready: !!userId,
+  });
   useEffect(() => {
     if (!userId) {
       redirect("/login");
@@ -27,27 +36,34 @@ const StudyJourney = () => {
       runGetLessonList({ journeyUnitId: selectedUnit!._id });
     }
   }, [selectedUnit]);
+  const [windowWidth, setWindowWidth] = useState<number>();
   useEffect(() => {
-    async () => {};
-  });
+    setWindowWidth(window?.innerWidth);
+  }, []);
+
   return (
     <Transition>
       <div className="p-5 lg:px-72 py-10">
         <Drawer
+          height={windowWidth && windowWidth < 960 ? 720 : 378}
+          loading={loadingLesson}
           title={selectedUnit?.name}
           placement="bottom"
           onClose={() => setOpen(false)}
           open={open}
         >
-          {lessons?.map((lesson: Lesson) => (
-            <LessonCard
-              key={lesson._id}
-              lesson={lesson}
-              onClick={() =>
-                window.open(`/study-journey/lesson/${lesson._id}`, "_self")
-              }
-            />
-          ))}
+          <div className="flex gap-5 lg:flex-row flex-col">
+            {lessons?.map((lesson: Lesson) => (
+              <LessonCard
+                disabled={lesson.order > userData?.progress?.lesson?.order + 1}
+                key={lesson._id}
+                lesson={lesson}
+                onClick={() =>
+                  window.open(`/study-journey/lesson/${lesson._id}`, "_self")
+                }
+              />
+            ))}
+          </div>
         </Drawer>
         <div className="flex flex-wrap gap-5">
           {units?.map((unit: Unit) => (
@@ -63,6 +79,7 @@ const StudyJourney = () => {
               }
               actions={[
                 <Button
+                  // disabled={(unit.order > userData?.progress?.unit?.order + 1 ) && ()}
                   type="text"
                   key="add"
                   onClick={() => {

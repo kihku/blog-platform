@@ -8,7 +8,7 @@ type Filter = {
 export async function createLesson(props: Lesson) {
   const data = await send_request({
     method: "POST",
-    url: `/api/lesson/create`,
+    url: `/lesson/create`,
     body: { ...props },
   });
   return data?.data;
@@ -17,22 +17,15 @@ export async function createLesson(props: Lesson) {
 export async function getListLesson(props: Filter) {
   const data = await send_request({
     method: "GET",
-    url: "/api/lesson/list",
+    url: "/lesson/list",
     params: { ...props },
   });
   return data?.data;
 }
 
 export async function getLesson({ id }: { id: string }) {
-  const data = await send_request({ method: "GET", url: `/api/lesson/${id}` });
+  const data = await send_request({ method: "GET", url: `/lesson/${id}` });
   return data?.data as Lesson;
 }
 
-export async function completeLesson() {
-  const data = await send_request({
-    method: "POST",
-    url: "/api/user/completeLesson",
-    // params: { ...props },
-  });
-  return data?.data;
-}
+

@@ -1,9 +1,9 @@
 "use client";
 
-import { completeLesson, getLesson } from "@/apis";
+import { updateProgress, getLesson } from "@/apis";
 import Transition from "@/components/transition";
 import { Slide } from "@/types";
-import { useRequest } from "ahooks";
+import { useRequest, useSessionStorageState } from "ahooks";
 import { Button } from "antd";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -22,7 +22,7 @@ export default function Lesson() {
     ready: !!slug,
     defaultParams: [{ id: slug as string }],
   });
-  const { run: runCompleteLesson } = useRequest(completeLesson, {
+  const { run: runUpdateProgress } = useRequest(updateProgress, {
     manual: true,
     onSuccess: () => {
       window.open(`/study-journey`, "_self");
@@ -36,13 +36,14 @@ export default function Lesson() {
     }
     SetIsCheckMultiple(false);
   };
-  const QUESTION_TYPE = ["MULTIPLE_CHOICE"];
+  const QUESTION_TYPE = ["MULTIPLE_CHOICE", "TRUE_FALSE_QUESTION"];
   const [needAnswer, setNeedAnswer] = useState(false);
   useEffect(() => {
     setNeedAnswer(
       QUESTION_TYPE.includes(lesson?.data[curSlide]?.type as string)
     );
   }, [curSlide]);
+  const [userId] = useSessionStorageState<string | undefined>("userId");
   const processSlideContent = (slide: Slide) => {
     const multipleChoiceProps = {
       className: `text-base font-bold ${
@@ -83,7 +84,11 @@ export default function Lesson() {
               type="primary"
               size="large"
               onClick={() => {
-                runCompleteLesson();
+                runUpdateProgress({
+                  id: userId as string,
+                  lesson: { id: lesson._id, order: lesson.order },
+                  unit: { id: lesson.journeyUnitId },
+                });
               }}
             >
               Back to Journey
@@ -142,8 +147,8 @@ export default function Lesson() {
         )}
         {slide?.type === "TRUE_FALSE_QUESTION" && (
           <div className="flex gap-5 items-center mt-5">
-            <Button>True</Button>
-            <Button>False</Button>
+            <div className="rounded-sm w-20 shadow-md">True</div>
+            <div className="rounded-sm w-20 shadow-md">False</div>
           </div>
         )}
       </div>

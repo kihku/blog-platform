@@ -25,8 +25,9 @@ export async function send_request({
   body,
   token,
 }: props) {
+  const urlPrefix = process.env.NEXT_PUBLIC_ENV === "development"? "" : "/api"
   const searchParams = objToParamString(params);
-  url = url + (searchParams ? "?" : "") + searchParams;
+  url = urlPrefix + url + (searchParams ? "?" : "") + searchParams;
   const result = await fetch(process.env.NEXT_PUBLIC_SERVER_HOST + url, {
     headers: {
       "Content-Type": "application/json",

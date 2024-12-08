@@ -4,7 +4,7 @@ import { send_request } from "./utils";
 export async function createUnit(props: Unit) {
   const data = await send_request({
     method: "POST",
-    url: `/api/unit/create`,
+    url: `/unit/create`,
     body: { ...props },
   });
   return data?.data;
@@ -13,7 +13,7 @@ export async function createUnit(props: Unit) {
 export async function getUnitList() {
   const data = await send_request({
     method: "GET",
-    url: `/api/unit/list`,
+    url: `/unit/list`,
   });
   return data?.data;
 }

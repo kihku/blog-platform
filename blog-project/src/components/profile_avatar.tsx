@@ -24,7 +24,7 @@ export default function ProfileAvatar() {
   const [userId] = useSessionStorageState<string | undefined>("userId");
   return (
     <div>
-      <div>
+      <div className="z-10">
         <Popover placement="bottom-end">
           <PopoverHandler>
             {cloneElement(renderAvatar(), { size: "large" })}
