@@ -1,4 +1,5 @@
 const User = require('../models/userModel');
+const { completeLesson } = require('../services/userService');
 
 exports.checkId = (req, res, next, val) => {
   if (req.params.id * 1 > 3) {
@@ -35,5 +36,18 @@ exports.updateUser = async (req, res) => {
       status: 'fail',
       message: err,
     });
+  }
+};
+
+exports.updateProgress = async (req, res) => {
+  let error;
+  await updateProgress(req.body).catch((err) => (error = err));
+  if (error) {
+    res.status(400).json({
+      status: 'fail',
+      message: error,
+    });
+  } else {
+    res.status(201).json({ status: 'success' });
   }
 };

@@ -21,7 +21,10 @@ const userSchema = new mongoose.Schema({
   },
   age: Number,
   role: String,
-  progress: {},
+  progress: {
+    type: Object,
+    required: true,
+  },
 });
 userSchema.index({ env: 1, email: 1 }, { unique: true });
 userSchema.pre(

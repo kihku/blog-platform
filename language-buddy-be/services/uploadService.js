@@ -40,7 +40,7 @@ async function copyFile({ etag, name }) {
   }
   return {
     etag: newEtag,
-    url: `${process.env.MINIO_SERVER_URL}:9000/${targetBucket}/${name}`,
+    url: `${process.env.MINIO_STORAGE_URL}/${targetBucket}/${name}`,
     name,
   };
 }
@@ -62,7 +62,7 @@ async function uploadFile(file) {
     throw new Error(error);
   }
   return {
-    url: `${process.env.MINIO_SERVER_URL}:9000/${bucket}/${file?.originalname}`,
+    url: `${process.env.MINIO_STORAGE_URL}/${bucket}/${file?.originalname}`,
     etag,
     name: file?.originalname,
   };
